@@ -2,6 +2,7 @@
 
 import Footer from "./components/Footer"
 import Header from "./components/Header"
+import SliderComponent from "./components/slider/Slider"
 
 export default function Home() {
 
@@ -9,7 +10,7 @@ export default function Home() {
     <>
       <Header />
       <div>
-        main
+        <SliderComponent />
       </div>
       <Footer />
     </>

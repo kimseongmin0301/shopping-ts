@@ -17,14 +17,14 @@ export default function Login() {
                             </h3>
                         </Link>
                     </div>
-                    <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg">
+                    <div className="w-96 px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg">
                         <form method='post'>
                             <div>
                                 <div className="flex flex-col items-start">
                                     <Input
                                         type="text"
                                         name="name"
-                                        className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        className="block mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                         label="아이디"
                                     />
                                 </div>
@@ -34,7 +34,7 @@ export default function Login() {
                                     <Input
                                         type="password"
                                         name="password"
-                                        className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        className="block mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                         label="비밀번호"
                                     />
                                 </div>

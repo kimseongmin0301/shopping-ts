@@ -4,8 +4,10 @@ import React from 'react';
 import SingleLayout from '../components/SingleLayout';
 import Link from 'next/link';
 import { Button, Input } from '@material-tailwind/react';
+import { Postcode } from '../components/addressAPI/DaumPostcodeEmbed';
 
 export const JoinPage = () => {
+
     return (
         <SingleLayout>
             <div>
@@ -17,7 +19,7 @@ export const JoinPage = () => {
                             </h3>
                         </Link>
                     </div>
-                    <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg">
+                    <div className="w-96 px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg">
                         <form method='post'>
                             <div>
                                 <div className="flex flex-col items-start">
@@ -43,10 +45,14 @@ export const JoinPage = () => {
                                 <div className="flex flex-col items-start">
                                     <Input
                                         type="password"
-                                        name="password_confirmation"
                                         className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                         label="비밀번호 확인"
                                     />
+                                </div>
+                            </div>
+                            <div className="mt-4">
+                                <div className="flex flex-col items-start">
+                                    <Postcode />
                                 </div>
                             </div>
                             <div className="flex items-center justify-end mt-4">
@@ -60,7 +66,6 @@ export const JoinPage = () => {
             </div>
         </SingleLayout>
     )
-
 }
 
 export default JoinPage;
