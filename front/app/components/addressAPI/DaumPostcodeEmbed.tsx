@@ -1,13 +1,16 @@
 'use client'
 
 import { Button, Input } from '@material-tailwind/react';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 
-export const Postcode = () => {
+export const Postcode = (props: any) => {
 
     const [fullAddr, setFullAddr] = useState('');
     const [zoneCode, setZoneCode] = useState('');
+    const [endCode, setEndCode] = useState('');
+
+    const add3 = useRef<HTMLInputElement>(null);
 
     const CURRENT_URL = 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
     const open = useDaumPostcodePopup(CURRENT_URL);
@@ -28,20 +31,30 @@ export const Postcode = () => {
         }
         setFullAddr(fullAddress);
         setZoneCode(zoneCode);
+        props.onAddress1Data(zoneCode);
+        props.onAddress2Data(fullAddress);
     };
 
     const handleClick = () => {
         open({ onComplete: handleComplete });
     };
 
+    useEffect(() => {
+        if (add3.current) {
+            add3.current.value = endCode;
+
+            props.onAddress3Data(endCode);
+        }
+    }, [endCode])
+
     return (
         <>
             <div className="flex justify-between m-2">
-                <Input
+                <input
                     type="text"
                     className="block mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    label="우편번호"
-                    onChange={(e: any) => setFullAddr(e.target.value)}
+                    placeholder="우편번호"
+                    disabled
                     value={zoneCode}
                 />
                 <Button
@@ -52,17 +65,19 @@ export const Postcode = () => {
                 </Button>
             </div>
             <div className="flex justify-between m-2">
-                <Input
+                <input
                     type="text"
                     className="block mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    label="주소"
-                    onChange={(e: any) => setZoneCode(e.target.value)}
+                    placeholder="주소"
+                    disabled
                     value={fullAddr}
                 />
-                <Input
+                <input
                     type="text"
                     className="block mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    label="참고항목"
+                    placeholder="참고항목"
+                    onChange={(e: any) => setEndCode(e.target.value)}
+                    ref={add3}
                 />
             </div>
         </>

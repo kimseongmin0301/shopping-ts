@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  prisma-db:
+    image: postgres:14
+    ports:
+      - 5430:5432
+    environment:
+      POSTGRES_USER: prismauser
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: prisma
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8082:8080

@@ -1,12 +1,75 @@
 'use client'
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import SingleLayout from '../components/SingleLayout';
 import Link from 'next/link';
 import { Button, Input } from '@material-tailwind/react';
 import { Postcode } from '../components/addressAPI/DaumPostcodeEmbed';
+import { axiosInstance } from '../services/base.service';
+import { useRouter } from 'next/navigation';
 
 export const JoinPage = () => {
+    const router = useRouter();
+    const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+
+        axiosInstance.post('/api/users/join', {
+            id: userId,
+            password: pw,
+            name: name,
+            address1: address1,
+            address2: address2,
+            address3: address3
+        })
+            .then(res => {
+                console.log(res)
+                router.push('/login');
+            })
+    }
+
+    const idRef = useRef<HTMLInputElement>(null);
+    const pwRef = useRef<HTMLInputElement>(null);
+
+    const [userId, setUserId] = useState('');
+    const [pw, setPw] = useState('');
+    const [name, setName] = useState('');
+    const [address1, setAddress1] = useState('');
+    const [address2, setAddress2] = useState('');
+    const [address3, setAddress3] = useState('');
+
+    const handleAddress1Received = (data: any) => {
+        setAddress1(data);
+    }
+    const handleAddress2Received = (data: any) => {
+        setAddress2(data);
+    }
+    const handleAddress3Received = (data: any) => {
+        setAddress3(data);
+    }
+
+    useEffect(() => {
+        if (idRef.current) {
+            idRef.current.value = userId;
+        }
+    }, [userId]);
+
+    useEffect(() => {
+        if (pwRef.current) {
+            pwRef.current.value = pw;
+        }
+    }, [pw]);
+
+    const handleIdChange = (e: any) => {
+        setUserId(e.target.value);
+    }
+
+    const handleNameChange = (e: any) => {
+        setName(e.target.value);
+    }
+
+    const handlePwChange = (e: any) => {
+        setPw(e.target.value);
+    }
 
     return (
         <SingleLayout>
@@ -21,13 +84,25 @@ export const JoinPage = () => {
                     </div>
                     <div className="w-96 px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg">
                         <form method='post'>
-                            <div>
+                            <div className="mt-4">
                                 <div className="flex flex-col items-start">
-                                    <Input
+                                    <input
                                         type="text"
                                         name="name"
                                         className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                        label="아이디"
+                                        placeholder="아이디"
+                                        onChange={handleIdChange}
+                                    />
+                                </div>
+                            </div>
+                            <div className="mt-4">
+                                <div className="flex flex-col items-start">
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        placeholder="이름"
+                                        onChange={handleNameChange}
                                     />
                                 </div>
                             </div>
@@ -38,6 +113,7 @@ export const JoinPage = () => {
                                         name="password"
                                         className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                         label="비밀번호"
+                                        onChange={handlePwChange}
                                     />
                                 </div>
                             </div>
@@ -52,11 +128,11 @@ export const JoinPage = () => {
                             </div>
                             <div className="mt-4">
                                 <div className="flex flex-col items-start">
-                                    <Postcode />
+                                    <Postcode onAddress1Data={handleAddress1Received} onAddress2Data={handleAddress2Received} onAddress3Data={handleAddress3Received} />
                                 </div>
                             </div>
                             <div className="flex items-center justify-end mt-4">
-                                <Button type="submit">
+                                <Button type="submit" onClick={handleSubmit}>
                                     회원가입
                                 </Button>
                             </div>

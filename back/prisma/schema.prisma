@@ -1,0 +1,100 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String    @id
+  password String
+  name     String
+  auth     Role      @default(USER)
+  regDt    DateTime  @default(now())
+  modDt    DateTime  @updatedAt
+  product  Product[]
+  carts    Cart[]
+  Payment  Payment[]
+  UserInfo UserInfo?
+}
+
+model UserInfo {
+  id       String   @id
+  userId   String   @unique
+  address1 String?
+  address2 String?
+  address3 String?
+  regDt    DateTime @default(now())
+  modDt    DateTime @updatedAt
+  user     User     @relation(fields: [userId], references: [id])
+}
+
+model Product {
+  seq      Int                 @id @default(autoincrement())
+  userId   String
+  title    String
+  content  String
+  media    String?
+  price    Int
+  option   String?
+  regDt    DateTime            @default(now())
+  modDt    DateTime
+  carts    Cart[]
+  mediums  Media[]
+  user     User                @relation(fields: [userId], references: [id])
+  payments MediumsOnPayments[]
+}
+
+model Media {
+  seq      Int                 @id
+  mediaId  Int
+  media1   String
+  media2   String
+  media3   String
+  regDt    DateTime            @default(now())
+  product  Product             @relation(fields: [mediaId], references: [seq])
+  payments MediumsOnPayments[]
+}
+
+model Cart {
+  seq     Int      @id @default(autoincrement())
+  userId  String
+  mediaId Int
+  count   Int      @default(1)
+  regDt   DateTime @default(now())
+  user    User     @relation(fields: [userId], references: [id])
+  product Product  @relation(fields: [mediaId], references: [seq])
+}
+
+model Payment {
+  seq          Int                 @id @default(autoincrement())
+  userId       String
+  productPrice Int
+  amount       Int
+  option       String?
+  regDt        DateTime            @default(now())
+  user         User                @relation(fields: [userId], references: [id])
+  mediums      MediumsOnPayments[]
+}
+
+model MediumsOnPayments {
+  media     Media    @relation(fields: [mediaId], references: [seq])
+  mediaId   Int
+  payment   Payment  @relation(fields: [paymentId], references: [seq])
+  paymentId Int
+  regDt     DateTime @default(now())
+  product   Product? @relation(fields: [productId], references: [seq])
+  productId Int?
+
+  @@id([mediaId, paymentId])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
