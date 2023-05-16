@@ -22,9 +22,21 @@ export const JoinPage = () => {
             address3: address3
         })
             .then(res => {
-                console.log(res)
-                router.push('/login');
+                console.log(res.status)
+                if (res.status === 200) {
+                    router.push('/login');
+                } else {
+                    // 가입 요청이 실패한 경우
+                    console.log('가입 실패');
+                    // 실패에 대한 처리를 추가할 수 있습니다.
+                }
             })
+            .catch(error => {
+                console.log(error);
+                // 가입 요청 중에 오류가 발생한 경우
+                console.log('가입 오류');
+                // 오류에 대한 처리를 추가할 수 있습니다.
+            });
     }
 
     const idRef = useRef<HTMLInputElement>(null);

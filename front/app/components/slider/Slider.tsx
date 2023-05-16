@@ -31,9 +31,9 @@ export default function SliderComponent() {
                         alt="image slide 2"
                     />
                 </SwiperSlide>
-                <SwiperSlide>
+                <SwiperSlide className="relation z-0">
                     <img
-                        className="object-contain w-96 h-48 flex justify-center"
+                        className="object-contain w-96 h-48 flex justify-center realtion z-0"
                         src="https://cdn.pixabay.com/photo/2022/07/26/03/35/jogger-7344979__340.jpg"
                         alt="image slide 3"
                     />

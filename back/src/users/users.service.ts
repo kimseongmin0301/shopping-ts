@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreateUserDto, CreateUserInfoDto, LoginDto } from './dto/users.dto';
 import * as bcrypt from "bcrypt";
 import { PrismaClient, User } from '@prisma/client';
+import { JwtService } from '@nestjs/jwt';
 
 const prisma = new PrismaClient()
 
@@ -9,13 +10,13 @@ const prisma = new PrismaClient()
 
 @Injectable()
 export class UsersService {
+    constructor(private readonly jwtService: JwtService) { }
 
     // bcrypt 암호화
-    async transformPassword(user: CreateUserDto) {
-        const pw = await bcrypt.hash(
-            user.password, 10,
-        );
-        return pw;
+    async transformPassword(user: CreateUserDto): Promise<string> {
+        const saltOrRounds = 10; // 솔트 또는 해시 반복 횟수
+        const hashedPassword = await bcrypt.hash(user.password, saltOrRounds);
+        return hashedPassword;
     }
 
     // 회원가입
@@ -55,27 +56,7 @@ export class UsersService {
         return result
     }
 
-    async findOne(id: string): Promise<User | undefined> {
+    async findOne(id: string): Promise<any> {
         return prisma.user.findUnique({ where: { id } });
-    }
-
-    // Login
-    public login = async (user: LoginDto): Promise<User> => {
-
-        const { id, password } = user;
-
-        const existingUser = await prisma.user.findUnique({ where: { id } });
-
-        if (!existingUser) {
-            throw new Error('User not found');
-        }
-
-        const passwordMatch = await bcrypt.compare(password, existingUser.password);
-
-        if (!passwordMatch) {
-            throw new Error('Invalid password');
-        }
-
-        return existingUser;
     }
 }   

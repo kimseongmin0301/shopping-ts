@@ -31,7 +31,7 @@ model UserInfo {
   address3 String?
   regDt    DateTime @default(now())
   modDt    DateTime @updatedAt
-  user     User     @relation(fields: [userId], references: [id])
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Product {
@@ -46,7 +46,7 @@ model Product {
   modDt    DateTime
   carts    Cart[]
   mediums  Media[]
-  user     User                @relation(fields: [userId], references: [id])
+  user     User                @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   payments MediumsOnPayments[]
 }
 
@@ -57,7 +57,7 @@ model Media {
   media2   String
   media3   String
   regDt    DateTime            @default(now())
-  product  Product             @relation(fields: [mediaId], references: [seq])
+  product  Product             @relation(fields: [mediaId], references: [seq], onDelete: Cascade, onUpdate: Cascade)
   payments MediumsOnPayments[]
 }
 
@@ -67,8 +67,8 @@ model Cart {
   mediaId Int
   count   Int      @default(1)
   regDt   DateTime @default(now())
-  user    User     @relation(fields: [userId], references: [id])
-  product Product  @relation(fields: [mediaId], references: [seq])
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  product Product  @relation(fields: [mediaId], references: [seq], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Payment {
@@ -78,17 +78,17 @@ model Payment {
   amount       Int
   option       String?
   regDt        DateTime            @default(now())
-  user         User                @relation(fields: [userId], references: [id])
+  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   mediums      MediumsOnPayments[]
 }
 
 model MediumsOnPayments {
-  media     Media    @relation(fields: [mediaId], references: [seq])
+  media     Media    @relation(fields: [mediaId], references: [seq], onDelete: Cascade, onUpdate: Cascade)
   mediaId   Int
-  payment   Payment  @relation(fields: [paymentId], references: [seq])
+  payment   Payment  @relation(fields: [paymentId], references: [seq], onDelete: Cascade, onUpdate: Cascade)
   paymentId Int
   regDt     DateTime @default(now())
-  product   Product? @relation(fields: [productId], references: [seq])
+  product   Product? @relation(fields: [productId], references: [seq], onDelete: Cascade, onUpdate: Cascade)
   productId Int?
 
   @@id([mediaId, paymentId])
