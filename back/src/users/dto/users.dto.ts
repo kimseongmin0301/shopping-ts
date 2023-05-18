@@ -1,6 +1,6 @@
 import { Role } from "@prisma/client";
 
-export class CreateUserDto {
+export class UserDto {
     id: string;
     password: string & { hash: string };
     name: string;

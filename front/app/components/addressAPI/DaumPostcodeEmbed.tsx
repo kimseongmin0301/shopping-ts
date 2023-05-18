@@ -61,7 +61,7 @@ export const Postcode = (props: any) => {
                     type="button"
                     className="block mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     onClick={handleClick}
-                > 우편번호 찾기
+                > 주소 찾기
                 </Button>
             </div>
             <div className="flex justify-between m-2">

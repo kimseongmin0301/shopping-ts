@@ -4,9 +4,10 @@ import { Button, Card } from "@material-tailwind/react";
 import Header from "../components/Header";
 import SingleLayout from "../components/SingleLayout";
 import { SideBar } from "../components/sidebar/SideBar";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { axiosInstance } from "../services/base.service";
+import { Postcode } from "../components/addressAPI/DaumPostcodeEmbed";
 
 const userInfo = ['아이디', '비밀번호', '이름', '주소']
 
@@ -66,9 +67,17 @@ export default function Profile() {
   }, [])
 
   const handleonClickAddressChange = () => {
-    axiosInstance.put('')
+    // axiosInstance.put('updateAddress', {
+    //   id: userProfile?.id,
+    //   address1: add1Ref,
+    //   address2: add2Ref,
+    //   address3: add3Ref,
+    // })
   }
 
+  const add1Ref = useRef(null);
+  const add2Ref = useRef(null);
+  const add3Ref = useRef(null);
 
   return (
     <SingleLayout>
@@ -89,7 +98,10 @@ export default function Profile() {
               <tr>
                 <td>주소</td>
                 <td>
-                  {userProfile?.UserInfo?.address1} {userProfile?.UserInfo?.address2} {userProfile?.UserInfo?.address3}   <Button>주소 바꾸기</Button>
+                  <span ref={add1Ref}>{userProfile?.UserInfo?.address1}</span> 
+                  <span ref={add2Ref}>{userProfile?.UserInfo?.address2}</span> 
+                  <span ref={add3Ref}>{userProfile?.UserInfo?.address3}</span>   <Button>주소 바꾸기</Button>
+                  <Postcode />
                 </td>
               </tr>
             </table>

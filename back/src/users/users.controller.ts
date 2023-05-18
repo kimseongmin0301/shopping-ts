@@ -1,5 +1,5 @@
 import { Body, Controller, Post, UseGuards, Request, Bind, Req, HttpCode, Get, Put } from '@nestjs/common';
-import { CreateUserDto, CreateUserInfoDto, LoginDto } from './dto/users.dto';
+import { UserDto, CreateUserInfoDto, LoginDto } from './dto/users.dto';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from 'src/auth/auth.service';
@@ -10,15 +10,15 @@ export class UsersController {
 
     @HttpCode(200)
     @Post('/join')
-    async createUser(@Body() createUserDto: CreateUserDto) {
-        const user = await this.usersService.createUser(createUserDto);
+    async createUser(@Body() dto: UserDto) {
+        const user = await this.usersService.createUser(dto);
 
         return { message: 'user create', user };
 
     }
 
     @Put('/updateAddress')
-    async updateUser(@Body() dto: CreateUserInfoDto) {
+    async updateUser(@Body() dto: UserDto) {
         const user = await this.usersService.updateUser(dto);
 
         return user;
