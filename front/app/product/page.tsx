@@ -10,7 +10,7 @@ export default function Profile() {
     <CommonLayout>
 
       <Product>
-        <h2>Product Name</h2>
+
       </Product>
 
 

@@ -1,5 +1,6 @@
 'use client'
 
+import axiosInstance from "@/app/services/base.service";
 import { Button } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 
@@ -28,7 +29,13 @@ export const HeaderButton = (props: HeaderButtonProps) => {
 
     const onClickHeaderButton = (sValue: string | number) => () => {
         setLocalValue(sValue);
+
+        if (sValue === 'logout') {
+            localStorage.removeItem('access_token');
+        }
     }
+
+
 
     return (
         <>
@@ -42,3 +49,7 @@ export const HeaderButton = (props: HeaderButtonProps) => {
         </>
     );
 };
+
+function uesId() {
+    throw new Error("Function not implemented.");
+}

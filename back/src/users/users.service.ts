@@ -6,8 +6,6 @@ import { JwtService } from '@nestjs/jwt';
 
 const prisma = new PrismaClient()
 
-
-
 @Injectable()
 export class UsersService {
     constructor(private readonly jwtService: JwtService) { }
@@ -56,7 +54,40 @@ export class UsersService {
         return result
     }
 
+    // getProfile
     async findOne(id: string): Promise<any> {
-        return prisma.user.findUnique({ where: { id } });
+        return prisma.user.findUnique({
+            where: {
+                id
+            },
+            select: {
+                id: true,
+                password: true, // 없으면 왜 에러가 나는가..
+                name: true,
+                UserInfo: {
+                    select: {
+                        address1: true,
+                        address2: true,
+                        address3: true,
+                    }
+                }
+            }
+        });
+    }
+
+    async updateUser(dto: CreateUserInfoDto): Promise<any> {
+
+        const { id, address1, address2, address3 } = dto;
+
+        return prisma.user.update({
+            where: {
+                id: id
+            },
+            data: {
+                address1: address1
+                address2: address2
+                address3: address3
+            }
+        })
     }
 }   

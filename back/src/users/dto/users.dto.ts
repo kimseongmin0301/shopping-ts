@@ -12,7 +12,7 @@ export class CreateUserDto {
 
 export class CreateUserInfoDto {
     id: string;
-    address1?: string
+    address1?: String
     address2?: string
     address3?: string
 }

@@ -2,38 +2,29 @@
 
 import { useRouter, usePathname } from "next/navigation";
 import { HeaderButton } from "./header-button/HeaderButton";
+import Link from "next/link";
 
-const headerData = [
-    {
-        label: '로그인',
-        value: 'login',
-        path: '/login',
-    },
-    {
-        label: '회원가입',
-        value: 'join',
-        path: '/join',
-    },
-    {
-        label: '프로필',
-        value: 'profile',
-        path: '/profile',
-    },
-]
+interface HeaderProps {
+    headerProps: {
+        label: string;
+        value: string;
+        path: string;
+    }[];
+}
 
-const Header = () => {
+const Header = ({ headerProps }: HeaderProps) => {
     const router = useRouter();
 
     const currentPath = usePathname();
 
     const currentButton = () => {
-        const btn = headerData.find((data) => data.path === currentPath);
+        const btn = headerProps?.find((data) => data.path === currentPath);
         return btn ? btn.value : '';
     }
 
 
     const onClickHeaderButton = (value: string | number) => {
-        const clickButton = headerData.find((btn) => btn.value === value);
+        const clickButton = headerProps?.find((btn) => btn.value === value);
 
         if (clickButton) {
             router.push(clickButton.path)
@@ -44,10 +35,10 @@ const Header = () => {
         <div className='header'>
             <div className="flex items-center justify-between p-2 border-b">
                 <div className="flex gap-4">
-                    <span>로고</span>
+                    <Link href='/'><span>Logo</span></Link>
                 </div>
                 <div className="flex m-2">
-                    <HeaderButton value={currentButton()} data={headerData} onTrackable={onClickHeaderButton} />
+                    <HeaderButton value={currentButton()} data={headerProps} onTrackable={onClickHeaderButton} />
                 </div>
             </div>
         </div>

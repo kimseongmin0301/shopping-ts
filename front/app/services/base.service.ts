@@ -22,3 +22,18 @@ const responseHandler = (response: AxiosResponse) => {
 const errorHandler = () => { };
 
 axiosInstance.interceptors.response.use(responseHandler, errorHandler);
+
+axiosInstance.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('access_token');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
+export default axiosInstance;
