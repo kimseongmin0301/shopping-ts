@@ -16,7 +16,6 @@ export default function Login() {
     const [pw, setPw] = useState<string>('');
 
     const handleonClick = async () => {
-        console.log(id, pw)
         await axiosInstance.post('/api/auth/login', {
             id: id,
             password: pw
@@ -26,10 +25,13 @@ export default function Login() {
                     localStorage.setItem('access_token', res.data.access_token)
                     router.push('/');
                 } else {
-                    console.log('로그인 실패');
+                    alert('아이디와 비밀번호를 다시 입력해주세요');
                 }
             })
-            .catch((error) => console.log(error))
+            .catch((error) => {
+                console.log(error)
+                alert('아이디와 비밀번호를 다시 입력해주세요');
+            })
     }
 
     const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,7 +92,7 @@ export default function Login() {
                             </div>
                         </div>
                         <div className="flex items-center justify-end mt-4">
-                            <Button onClick={handleonClick}>
+                            <Button type='submit' onClick={handleonClick}>
                                 로그인
                             </Button>
                         </div>

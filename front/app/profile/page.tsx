@@ -5,7 +5,6 @@ import Header from "../components/Header";
 import SingleLayout from "../components/SingleLayout";
 import { SideBar } from "../components/sidebar/SideBar";
 import { useEffect, useRef, useState } from "react";
-import axios from "axios";
 import { axiosInstance } from "../services/base.service";
 import { Postcode } from "../components/addressAPI/DaumPostcodeEmbed";
 
@@ -54,7 +53,7 @@ export default function Profile() {
     }
   }, [])
 
-  const [userProfile, setUserProfile] = useState(null);
+  const [userProfile, setUserProfile] = useState({});
 
   useEffect(() => {
     axiosInstance.get('/api/auth/profile', {
@@ -62,22 +61,35 @@ export default function Profile() {
     })
       .then(res => {
         setUserProfile(res.data)
-        console.log(res.data)
       })
   }, [])
 
-  const handleonClickAddressChange = () => {
-    // axiosInstance.put('updateAddress', {
-    //   id: userProfile?.id,
-    //   address1: add1Ref,
-    //   address2: add2Ref,
-    //   address3: add3Ref,
-    // })
+  const [address1, setAddress1] = useState('');
+  const [address2, setAddress2] = useState('');
+  const [address3, setAddress3] = useState('');
+
+  const handleAddress1Received = (data: any) => {
+    console.log(data)
+    setAddress1(data);
+  }
+  const handleAddress2Received = (data: any) => {
+    setAddress2(data);
+  }
+  const handleAddress3Received = (data: any) => {
+    setAddress3(data);
   }
 
-  const add1Ref = useRef(null);
-  const add2Ref = useRef(null);
-  const add3Ref = useRef(null);
+  const handleOnClickUpdateAddress = () => {
+    axiosInstance.put('/api/users/updateAddress', {
+      id: userProfile.id,
+      address1: address1 as string,
+      address2: address2 as string,
+      address3: address3 as string,
+      modDt: new Date(),
+    })
+      .then((res) => { console.log(res) })
+      .catch((error) => console.log(error))
+  }
 
   return (
     <SingleLayout>
@@ -98,10 +110,17 @@ export default function Profile() {
               <tr>
                 <td>주소</td>
                 <td>
-                  <span ref={add1Ref}>{userProfile?.UserInfo?.address1}</span> 
-                  <span ref={add2Ref}>{userProfile?.UserInfo?.address2}</span> 
-                  <span ref={add3Ref}>{userProfile?.UserInfo?.address3}</span>   <Button>주소 바꾸기</Button>
-                  <Postcode />
+                  <Postcode onAddress1Data={handleAddress1Received} onAddress2Data={handleAddress2Received} onAddress3Data={handleAddress3Received}
+                    address1={userProfile?.UserInfo?.address1} address2={userProfile?.UserInfo?.address2} address3={userProfile?.UserInfo?.address3}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td className="flex justify-end">
+                  <Button color="green" onClick={handleOnClickUpdateAddress}>
+                    수정
+                  </Button>
                 </td>
               </tr>
             </table>

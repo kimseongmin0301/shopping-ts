@@ -21,7 +21,7 @@ export const HeaderButton = (props: HeaderButtonProps) => {
 
     useEffect(() => {
         if (value) setLocalValue(value);
-    }, [value]);
+    }, [localValue]);
 
     useEffect(() => {
         if (localValue) onTrackable(localValue);

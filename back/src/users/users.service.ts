@@ -41,8 +41,8 @@ export class UsersService {
                     create: {
                         id,
                         address1: userInfoCreateDto.address1 as string,
-                        address2: userInfoCreateDto.address2 as string,
-                        address3: userInfoCreateDto.address3 as string,
+                        address2: userInfoCreateDto.address2,
+                        address3: userInfoCreateDto.address3,
                         regDt: new Date(),
                         modDt: new Date(),
                     }
@@ -75,18 +75,20 @@ export class UsersService {
         });
     }
 
-    async updateUser(dto:  UserDto): Promise<User> {
+    async updateUser(dto: UserDto): Promise<User> {
 
         return prisma.user.update({
             where: {
                 id: dto.id
             },
             data: {
+                modDt: new Date(),
                 UserInfo: {
                     update: {
                         address1: dto.address1 as string,
                         address2: dto.address2 as string,
-                        address3: dto.address3 as string
+                        address3: dto.address3 as string,
+                        modDt: new Date(),
                     }
                 }
             },

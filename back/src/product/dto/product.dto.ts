@@ -26,7 +26,7 @@ export class ProductDto {
     title: string;
     content: string;
     media: string;
-    price: number;
+    price: string;
     option: string;
     regDt: Date;
     modDt: Date;

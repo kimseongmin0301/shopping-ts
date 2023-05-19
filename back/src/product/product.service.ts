@@ -1,13 +1,14 @@
 import { Injectable, Req } from '@nestjs/common';
-import { PrismaClient, Product } from '@prisma/client';
+import { Media, PrismaClient, Product } from '@prisma/client';
 import { ProductDto, createProductDto, getProductDto } from './dto/product.dto';
+import { MediaDto } from './dto/media.dto';
 
 const prisma = new PrismaClient()
 
 @Injectable()
 export class ProductService {
 
-    public createProduct = async (dto: ProductDto) => {
+    public createProduct = async (dto: ProductDto, path: string | null) => {
 
         const { userId, title, content, media, price, option } = dto;
 
@@ -28,13 +29,36 @@ export class ProductService {
                 modDt: new Date(),
             },
         });
+
+        const mediums = await prisma.media.create({
+            data: {
+                product: {
+                    connect: {
+                        seq: product.seq
+                    },
+                },
+                media1: path || null || undefined,
+                regDt: new Date()
+            }
+        })
+
         await prisma.$disconnect();
 
-        return product;
+        return { product, mediums };
         // } catch (error) {
         //     throw new Error('Failed to create product.');
         // }
     };
+
+    async getMedia(seq: number): Promise<Media> {
+        const media = await prisma.media.findFirst({
+            where: {
+                mediaId: parseInt(seq.toString())
+            }
+        })
+        return media
+    }
+
 
     async getProducts(): Promise<Product[]> {
         try {

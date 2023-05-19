@@ -23,7 +23,7 @@ export const JoinPage = () => {
         })
             .then(res => {
                 console.log(res.status)
-                if (res.status === 200) {
+                if (res.status === 201) {
                     router.push('/login');
                 } else {
                     // 가입 요청이 실패한 경우

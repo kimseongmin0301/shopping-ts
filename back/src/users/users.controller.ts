@@ -8,7 +8,7 @@ import { AuthService } from 'src/auth/auth.service';
 export class UsersController {
     constructor(private readonly usersService: UsersService) { }
 
-    @HttpCode(200)
+    @HttpCode(201)
     @Post('/join')
     async createUser(@Body() dto: UserDto) {
         const user = await this.usersService.createUser(dto);

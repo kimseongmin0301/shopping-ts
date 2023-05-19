@@ -1,14 +1,35 @@
 'use client'
 
+import axiosInstance from '@/app/services/base.service';
 import { Button, Input } from '@material-tailwind/react';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 
-export const Postcode = (props: any) => {
+interface PostcodeProps {
+    onAddress1Data: (e: any) => void;
+    onAddress2Data: (e: any) => void;
+    onAddress3Data: (e: any) => void;
+    address1?: any | null;
+    address2?: any | null;
+    address3?: any | null;
+}
 
-    const [fullAddr, setFullAddr] = useState('');
-    const [zoneCode, setZoneCode] = useState('');
-    const [endCode, setEndCode] = useState('');
+export const Postcode = (props: PostcodeProps) => {
+
+    useEffect(() => {
+        axiosInstance.get('/api/auth/profile', {
+            headers: { Authorization: localStorage.getItem('access_token') }
+        })
+            .then(res => {
+                setFullAddr(res.data.UserInfo.address2)
+                setZoneCode(res.data.UserInfo.address1)
+                setEndCode(res.data.UserInfo.address3)
+            })
+    }, [])
+
+    const [fullAddr, setFullAddr] = useState<string>('');
+    const [zoneCode, setZoneCode] = useState<string>('');
+    const [endCode, setEndCode] = useState<string>('');
 
     const add3 = useRef<HTMLInputElement>(null);
 
@@ -46,7 +67,6 @@ export const Postcode = (props: any) => {
             props.onAddress3Data(endCode);
         }
     }, [endCode])
-
     return (
         <>
             <div className="flex justify-between m-2">
@@ -57,11 +77,12 @@ export const Postcode = (props: any) => {
                     disabled
                     value={zoneCode}
                 />
+
                 <Button
                     type="button"
                     className="block mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     onClick={handleClick}
-                > 주소 찾기
+                > Click
                 </Button>
             </div>
             <div className="flex justify-between m-2">

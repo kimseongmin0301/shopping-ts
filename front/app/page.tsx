@@ -62,23 +62,16 @@ export default function Home() {
   return (
     <>
       <Header headerProps={headerData} />
-      <div>
-        <h1>My Page</h1>
-        <button onClick={openPopup}>Open Popup</button>
-
-        {isPopupOpen && (
-          <Popup onClose={closePopup}>
-            <img className="object-scale-down w-96 h-48 flex justify-center relation z-80"
-              src="https://velog.velcdn.com/images/sssssssssy/post/f7383259-1e51-4cb2-b958-c5b85956fb45/image.png"
-            />
-          </Popup>
-        )}
-      </div>
-      <div className="m-2">
-        <ListItem>
-          <List>123</List>
-          <List>1234</List>
-        </ListItem>
+      <div style={{ height: '800px' }}>
+        <div>
+          <h1>My Page</h1>
+        </div>
+        <div className="m-2">
+          <ListItem>
+            <List>123</List>
+            <List>1234</List>
+          </ListItem>
+        </div>
       </div>
       <Footer />
     </>

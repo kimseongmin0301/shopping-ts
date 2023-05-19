@@ -5,7 +5,7 @@ const SingleLayout = ({ children }: { children: React.ReactNode }) => (
       <title>My App</title>
       <link rel="stylesheet" href="/static/css/style.css" />
     </Head>
-    <div className="">
+    <div style={{ height: '800px' }}>
       {children}
     </div>
   </div>

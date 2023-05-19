@@ -13,22 +13,20 @@ export default function Cart(props: CartProps) {
   return (
     <CommonLayout>
       <Card className="overflow-scroll w-full" style={{ height: '500px' }}>
-        <table className="w-full min-w-max table-auto text-left">
-          <thead>
-            <tr>
-              {TABLE_HEAD.map((head, index) => (
-                <th key={index} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal leading-none opacity-70"
-                  >
-                    {head}
-                  </Typography>
-                </th>
-              ))}
-            </tr>
-          </thead>
+        <table className="w-full min-w-max table-auto text-center">
+          <tr>
+            {TABLE_HEAD.map((head, index) => (
+              <th key={index} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
+                <Typography
+                  variant="small"
+                  color="blue-gray"
+                  className="font-normal leading-none opacity-70"
+                >
+                  {head}
+                </Typography>
+              </th>
+            ))}
+          </tr>
           <CartBody />
         </table>
       </Card>
