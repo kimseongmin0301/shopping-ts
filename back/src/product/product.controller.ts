@@ -39,12 +39,6 @@ export class ProductController {
         return this.productService.createProduct(req.body, filePath);
     }
 
-
-    @Get('/image/:productId')
-    async getImage(@Param('productId') path: number) {
-        return await this.productService.getMedia(path);
-    }
-
     // 이미지 가져오기 (한 로직에 묶거나 다른방법을 고려해봐야함) 
     @Get('/image/:path')
     async getFile(@Param('path') path: string, @Res() res: Response) {
@@ -58,13 +52,15 @@ export class ProductController {
         }
     }
 
-    // 상품 리스트 출력
     @Get('/list')
     async getProducts() {
-        return await this.productService.getProducts();
+        const products = await this.productService.getProducts();
+
+        return products
     }
 
     // 상품 상세보기
+
     @Get('/list/:seq')
     async getProductById(@Param('seq') seq: number) {
 

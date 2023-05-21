@@ -9,7 +9,7 @@ import axiosInstance from "../services/base.service";
 import { kill } from "process";
 import { kStringMaxLength } from "buffer";
 
-const paymentHeader = ['번호', '상품명', '상품가격', '수량', '옵션']
+const paymentHeader = ['번호', '상품명', '상품가격', '수량', '결제 가격']
 
 export default function Payment() {
   const [headerData, setHeaderData] = useState([{
@@ -88,7 +88,7 @@ export default function Payment() {
                 <div style={{ padding: "5px 50px", width: '200px' }}>{item?.title}</div>
                 <div style={{ padding: "5px 50px", width: '200px' }}>{item?.productPrice}</div>
                 <div style={{ padding: "5px 50px", width: '200px' }}>{item?.amount}</div>
-                <div style={{ padding: "5px 50px", width: '200px' }}>{item?.option}</div>
+                <div style={{ padding: "5px 50px", width: '200px' }}>{item?.productPrice * item?.amount}</div>
               </div>
             ))}
           </div>

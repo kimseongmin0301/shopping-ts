@@ -1,7 +1,10 @@
+'use client'
+
 import Head from "next/head";
 import Header from "./Header";
 import Footer from "./Footer";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 export const metadata = {
   title: '1234',
@@ -51,6 +54,8 @@ const CommonLayout = ({ children }: { children: React.ReactNode }) => {
     }
   }, [])
 
+  const path = usePathname();
+  const paramPattern = /\/product\/\d+/; // 숫자로 된 파라미터 패턴
   return (
     <div>
       <Head>
@@ -61,8 +66,7 @@ const CommonLayout = ({ children }: { children: React.ReactNode }) => {
       <div style={{ height: '800px' }}>
         {children}
       </div>
-      <Footer />
-    </div>
+      {!paramPattern.test(path) && path !== '/product/write' && path !== '/paying' && <Footer />}    </div>
   )
 };
 export default CommonLayout;

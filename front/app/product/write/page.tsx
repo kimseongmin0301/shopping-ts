@@ -51,6 +51,8 @@ export const WritePage = () => {
         }
     }, [price])
 
+    const [buttonDisabled, setButtonDisabled] = useState(false);
+
 
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -70,12 +72,16 @@ export const WritePage = () => {
         }
     };
 
-    const handleOnClickWriteProduct = () => {
+    const handleOnClickWriteProduct = (e: any) => {
+        e.preventDefault();
         const formData = new FormData();
         console.log(price);
         formData.append('userId', user);
         formData.append('title', title);
         formData.append('content', content);
+        if(fileInputRef.current)
+            formData.append('media', fileInputRef.current.value)
+            
         formData.append('price', price);
         if (selectedFile) {
             formData.append('file', selectedFile);
@@ -88,12 +94,15 @@ export const WritePage = () => {
         })
             .then(
                 (res) => {
-                    console.log(res?.data);
-                    // router.push(`/product/${res?.data.seq}`)
+                    setButtonDisabled(true);
+                    router.push(`/product/${res?.data.seq}`)
                 })
             .catch((error) => console.log(error))
     }
 
+    const handleOnClickCancel = () => {
+        router.push("/product")
+    }
 
     return (
         <CommonLayout>
@@ -115,8 +124,8 @@ export const WritePage = () => {
             <div>
                 <div className="flex justify-end" style={{ margin: "20px" }}>
                     <ButtonGroup color="amber">
-                        <Button onClick={handleOnClickWriteProduct}>등록</Button>
-                        <Button>취소</Button>
+                        <Button onClick={handleOnClickWriteProduct} disabled={buttonDisabled}>등록</Button>
+                        <Button onClick={handleOnClickCancel}>취소</Button>
                     </ButtonGroup>
                 </div>
             </div>

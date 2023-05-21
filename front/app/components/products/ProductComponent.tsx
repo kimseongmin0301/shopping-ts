@@ -1,5 +1,6 @@
 import { axiosInstance } from "@/app/services/base.service";
 import { Card, List, ListItem } from "@material-tailwind/react"
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface ProductProps {
@@ -9,25 +10,32 @@ interface ProductProps {
 export const Product = (props: ProductProps) => {
 
     const [data, setData] = useState([]);
-    const [seq, setSeq] = useState([]);
+    const [imageData, setImageData] = useState([]);
+
+    const router = useRouter();
 
     useEffect(() => {
         axiosInstance.get('/api/product/list')
             .then(res => {
-                setData(res?.data);
+                const data = res?.data;
+                setData(data);
+                data?.map((key: any) => {
+                    axiosInstance.get(`/api/product/image/${key?.media}`, {responseType : 'arraybuffer'})
+                    .then((res):any => {
+                        const blob = new Blob([res.data], {type: 'image/jpeg'});
+                        const imageUrl = URL.createObjectURL(blob);
+                        setImageData((prevImageData) : any=> [...prevImageData, imageUrl]);
+                    })
+                })
             })
     }, [])
 
-
-
-    // data Seq값만 받아와야함
-    // useEffect(() => {
-    //     if (data) {
-    //         setSeq(prevSeq => [...prevSeq, ...data]);
-    //     }
-    //     console.log(seq)
-    // }, [data]);
-
+    const handleOnClickProcut = (e: any) => {
+        console.log(e.target.dataset.seq)
+        router.push(`/product/${e.target.dataset.seq}`);
+    }
+ 
+                
     return (
         <div style={{ height: '800px', overflowY: 'scroll' }}>
             <style>
@@ -45,10 +53,9 @@ export const Product = (props: ProductProps) => {
             <Card className="w-64">
                 <List className="flex-wrap" style={{ "flexDirection": "row" }}>
                     {data?.map((product, index) => (
-                        <ListItem style={{ width: '49%', height: '150px' }} className="w-1/2 justify-center" key={index}>
-
-                            {product?.title}
-
+                        <ListItem style={{ width: '49%', height: '300px' }} className="w-1/2 justify-center flex-col" key={index} data-seq={product?.seq} onClick={handleOnClickProcut}>
+                            <img src={imageData[index]} style={{height: '100%'}}/>
+                            <span className="font-bold text-lg" style={{margin:'10px'}}>{product?.title}</span>
                             {props?.children}
                         </ListItem>
                     ))}

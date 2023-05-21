@@ -9,7 +9,7 @@ const prisma = new PrismaClient()
 export class ProductService {
 
     public createProduct = async (dto: ProductDto, path: string | null) => {
-
+        const fileName = path.split('\\').pop();
         const { userId, title, content, media, price, option } = dto;
 
         // try {
@@ -22,7 +22,7 @@ export class ProductService {
                 },
                 title,
                 content,
-                media,
+                media: fileName,
                 price,
                 option,
                 regDt: new Date(),
@@ -61,13 +61,13 @@ export class ProductService {
 
 
     async getProducts(): Promise<Product[]> {
-        try {
+        // try {
             const products = await prisma.product.findMany();
 
             return products;
-        } catch (error) {
-            throw new Error('Failed to get products');
-        }
+        // } catch (error) {
+        //     throw new Error('Failed to get products');
+        // }
     }
 
     async getProductBySeq(seq: number): Promise<Product> {

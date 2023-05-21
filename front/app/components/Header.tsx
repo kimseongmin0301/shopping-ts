@@ -3,6 +3,8 @@
 import { useRouter, usePathname } from "next/navigation";
 import { HeaderButton } from "./header-button/HeaderButton";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import axiosInstance from "../services/base.service";
 
 interface HeaderProps {
     headerProps: {
