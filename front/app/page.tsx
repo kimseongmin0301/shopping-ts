@@ -5,7 +5,9 @@ import Footer from "./components/Footer"
 import Header from "./components/Header"
 import SliderComponent from "./components/slider/Slider"
 import { useEffect, useState } from "react"
-import PopupPage, { Popup } from "./components/popup/Popup"
+import Modal from "./components/popup/Popup"
+import Popup from "./components/popup/Fixed"
+import axiosInstance from "./services/base.service"
 export default function Home() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -58,19 +60,21 @@ export default function Home() {
       ])
     }
   }, [])
+  // const [data, setData] = useState();
+
+  // useState(()=>{
+  //   axiosInstance.get('/api/product/list')
+  //   .then(res => setData(res?.data))
+  // })
 
   return (
     <>
       <Header headerProps={headerData} />
       <div style={{ height: '800px' }}>
-        <div>
-          <h1>My Page</h1>
-        </div>
         <div className="m-2">
-          <PopupPage />
-          <ListItem>
-
-          </ListItem>
+          <Modal />
+          <Popup />
+            <img src="https://picsum.photos/1500/600" />
         </div>
       </div>
       <Footer />

@@ -36,7 +36,7 @@ export const CustomTab = (props: CustomTabProps) => {
     <Tabs value={localValue}>
       <TabsHeader>
         {data.map((item) => (
-          <Tab key={item.value} value={item.value} onClick={onClickTab(item.value)}>
+          <Tab key={item.value} value={item.value} onClick={onClickTab(item.value)} className='z-0'>
             {item.label}
           </Tab>
         ))}

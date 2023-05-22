@@ -88,15 +88,23 @@ export default function Profile() {
   }
 
   const handleOnClickUpdateAddress = () => {
-    axiosInstance.put('/api/users/updateAddress', {
-      id: userProfile.id,
-      address1: address1 as string,
-      address2: address2 as string,
-      address3: address3 as string,
-      modDt: new Date(),
+    const update = confirm('주소를 바꾸시겠습니까')
+
+    if(update){
+      axiosInstance.put('/api/users/updateAddress', {
+          id: userProfile.id,
+          address1: address1 as string,
+          address2: address2 as string,
+          address3: address3 as string,
+          modDt: new Date(),
+      })
+      .then((res) => { 
+        console.log(res.status) 
+        alert("수정완료")
     })
-      .then((res) => { console.log(res.status) })
       .catch((error) => console.log(error))
+    }
+    
   }
 
   return (

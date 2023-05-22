@@ -31,8 +31,6 @@ export const Product = (props: ProductProps) => {
     }, [])
 
     const handleOnClickProduct = (e: any) => {
-        const seq = e.currentTarget.dataset.seq;
-        console.log(seq);
         router.push(`/product/${e.target.dataset.seq}`);
     }
 

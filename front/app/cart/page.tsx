@@ -45,8 +45,6 @@ export default function Cart(props: CartProps) {
       })
   }, [])
 
-  const [price, setPrice] = useState(1);
-
   const handleOnChangeAmount = (e: any, index: number) => {
     let value = e.target.value;
     if (value < 1) {
@@ -89,7 +87,7 @@ export default function Cart(props: CartProps) {
     console.log(cartDtos);
     axiosInstance.delete('/api/cart/delete', { data: cartDtos })
       .then(res => {
-
+          console.log(res)
       })
   }
 
@@ -153,7 +151,7 @@ export default function Cart(props: CartProps) {
                 </div>
               </td>
               <td>
-                <input type="text" disabled value={price} />
+                <input type="text" disabled value={cart?.product?.price * cart?.count} />
               </td>
             </tr>
           ))}

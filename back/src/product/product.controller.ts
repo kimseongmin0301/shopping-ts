@@ -43,11 +43,10 @@ export class ProductController {
     @Get('/image/:path')
     async getFile(@Param('path') path: string, @Res() res: Response) {
         try {
-            const file = fs.readFileSync(`./uploads/${path}`); // 파일 경로에 해당하는 파일을 읽습니다.
-            res.setHeader('Content-Type', 'image/jpeg'); // 파일 타입에 맞게 Content-Type을 설정합니다.
-            res.send(file); // 파일을 클라이언트에게 응답합니다.
+            const file = fs.readFileSync(`./uploads/${path}`);
+            res.setHeader('Content-Type', 'image/jpeg'); 
+            res.send(file); 
         } catch (error) {
-            // 파일을 찾지 못한 경우나 읽는 도중 에러가 발생한 경우 에러 처리 로직을 구현합니다.
             res.status(404).send('File not found');
         }
     }
