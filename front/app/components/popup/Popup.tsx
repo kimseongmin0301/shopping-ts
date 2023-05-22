@@ -1,15 +1,52 @@
-export const Popup = ({ onClose, children }: any) => {
+'use client'
+
+import { useEffect, useState } from "react";
+
+export const PopupPage = () => {
+
+    const currentTime = new Date().getTime();
+    localStorage.setItem('popupShownTime', currentTime.toString());
+
+    const [isOpen, setIsOpen] = useState(true);
+
+    const closePopup = () => {
+        setIsOpen(false);
+    };
+    const [isCooldown, setIsCooldown] = useState(false);
+    const cooldownDuration = 5; // 팝업을 닫은 후 재표시되기까지의 대기 시간 (단위: 밀리초)
+
+    useEffect(() => {
+        if (isCooldown) {
+            const cooldownTimer = setTimeout(() => {
+                setIsCooldown(false);
+            }, cooldownDuration);
+
+            return () => clearTimeout(cooldownTimer);
+        }
+    }, [isCooldown]);
 
     return (
-        <div
-            style={{ 'width': '100%', 'height': '100%', 'backgroundColor': 'rgba(0, 0, 0, 0.5)', 'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center', }
-            }>
-            <div style={{ 'backgroundColor': '#fff', 'padding': '20px', 'borderRadius': '4px', }}>
-                <button style={{ 'position': "absolute", 'top': '10px', 'right': '10px', 'backgroundColor': 'transparent', 'border': 'none', 'cursor': 'pointer', }} onClick={onClose}>
-                    Close
-                </button>
-                {children}
-            </div>
+        <div>
+            {isOpen && !isCooldown && (
+                <div className="popup">
+                    <h1>Popup Content</h1>
+                    <button onClick={closePopup}>Close</button>
+                </div>
+            )}
+
+            <style jsx>{`
+        .popup {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: #fff;
+          padding: 400px;
+          border: 1px solid #ccc;
+        }
+      `}</style>
         </div>
-    )
-}
+    );
+};
+
+export default PopupPage;

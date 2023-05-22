@@ -75,7 +75,21 @@ export class ProductController {
 
     // 상품 수정
     @Put('list/:seq')
-    async updateProduct(@Param('seq') seq: number, @Body() dto: ProductDto) {
-        return await this.productService.updateProductBySeq(seq, dto);
+    @UseInterceptors(
+        FileInterceptor('file', {
+            storage: diskStorage({
+                destination: './uploads',
+                filename: (req, file, cb) => {
+                    // 기존파일이름 사용
+                    cb(null, file.originalname);
+                },
+            }),
+        }),
+    )
+    async updateProduct(
+        @Param('seq') seq: number,
+        @UploadedFile() file: Express.Multer.File | undefined | null, // 파일 매개변수를 선택적으로 받도록 수정
+        @Req() req: Request,) {
+        return await this.productService.updateProductBySeq(seq, req.body);
     }
 }

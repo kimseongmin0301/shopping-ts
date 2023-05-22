@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { CartDto } from './dto/cart.dto';
 
@@ -9,25 +9,25 @@ export class CartController {
     // 장바구니목록 불러오기
     @Get('/:id')
     async getCartList(@Param('id') id: string) {
-        return this.cartService.findAll(id);
+        return await this.cartService.findAll(id);
     }
 
     // 장바구니 추가
     // 로그인 false일땐 사용 X
     @Post('/add')
-    async addCart(dto: CartDto) {
-        return this.cartService.addCart(dto);
+    async addCart(@Body() dto: CartDto) {
+        return await this.cartService.addCart(dto);
     }
 
     // 장바구니 목록 수정( 옵션, 수량 같은 것 )
     @Put('/update')
-    async updateCartList(dto: CartDto) {
-        return this.cartService.updateCart(dto);
+    async updateCart(@Body() dto: CartDto) {
+        return await this.cartService.updateCart(dto);
     }
 
     // 장바구니 목록 삭제
-    @Delete('/delect')
-    async deleteCartList(dto: CartDto[]) {
-        return this.cartService.delectCart(dto);
+    @Delete('/delete')
+    async deleteCartList(@Body() dto: CartDto[]) {
+        return await this.cartService.deleteCart(dto);
     }
 }

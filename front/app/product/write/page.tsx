@@ -75,13 +75,12 @@ export const WritePage = () => {
     const handleOnClickWriteProduct = (e: any) => {
         e.preventDefault();
         const formData = new FormData();
-        console.log(price);
         formData.append('userId', user);
         formData.append('title', title);
         formData.append('content', content);
-        if(fileInputRef.current)
+        if (fileInputRef.current)
             formData.append('media', fileInputRef.current.value)
-            
+
         formData.append('price', price);
         if (selectedFile) {
             formData.append('file', selectedFile);
@@ -95,7 +94,8 @@ export const WritePage = () => {
             .then(
                 (res) => {
                     setButtonDisabled(true);
-                    router.push(`/product/${res?.data.seq}`)
+                    console.log(res?.data)
+                    router.push(`/product/${res?.data.product.seq}`)
                 })
             .catch((error) => console.log(error))
     }
@@ -108,7 +108,7 @@ export const WritePage = () => {
         <CommonLayout>
             <div className="flex flex-col align-center" style={{ margin: '20px auto', alignItems: 'center' }}>
                 <label>상품명</label><input className="border-solid border-black border" style={{ width: '500px' }} type="text" onChange={(e) => setTitle(e.target.value)} ref={titleRef} />
-                <label>가격</label><input className="border-solid border-black border" style={{ width: '500px' }} type="text" onChange={(e) => setPrice(e.target.value)} value={price} ref={priceRef} />
+                <label>가격</label><input className="border-solid border-black border" style={{ width: '500px' }} type="number" onChange={(e) => setPrice(e.target.value)} value={price} ref={priceRef} />
                 <input ref={fileInputRef} accept="image/*" onChange={handleFileChange} className="border-solid border-black border" style={{ width: '500px' }} type="file" />
             </div>
 

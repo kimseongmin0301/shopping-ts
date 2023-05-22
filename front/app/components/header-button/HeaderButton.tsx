@@ -2,6 +2,7 @@
 
 import axiosInstance from "@/app/services/base.service";
 import { Button } from "@material-tailwind/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface HeaderButtonProps {
@@ -33,6 +34,7 @@ export const HeaderButton = (props: HeaderButtonProps) => {
         if (sValue === 'logout') {
             localStorage.removeItem('access_token');
         }
+
     }
 
 

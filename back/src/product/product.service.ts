@@ -62,9 +62,13 @@ export class ProductService {
 
     async getProducts(): Promise<Product[]> {
         // try {
-            const products = await prisma.product.findMany();
+        const products = await prisma.product.findMany({
+            orderBy: {
+                seq: 'desc'
+            }
+        });
 
-            return products;
+        return products;
         // } catch (error) {
         //     throw new Error('Failed to get products');
         // }

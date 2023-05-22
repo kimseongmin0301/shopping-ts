@@ -30,7 +30,7 @@ const CommonLayout = ({ children }: { children: React.ReactNode }) => {
         {
           label: '로그아웃',
           value: 'logout',
-          path: ''
+          path: '/'
         },
         {
           label: '프로필',
@@ -55,6 +55,7 @@ const CommonLayout = ({ children }: { children: React.ReactNode }) => {
   }, [])
 
   const path = usePathname();
+  const updatePattern = /^\/product\/update\/[^/]*$/
   const paramPattern = /\/product\/\d+/; // 숫자로 된 파라미터 패턴
   return (
     <div>
@@ -66,7 +67,7 @@ const CommonLayout = ({ children }: { children: React.ReactNode }) => {
       <div style={{ height: '800px' }}>
         {children}
       </div>
-      {!paramPattern.test(path) && path !== '/product/write' && path !== '/paying' && <Footer />}    </div>
+      {!paramPattern.test(path) && path !== '/product/write' && path !== '/paying' && !updatePattern.test('/product/update') && <Footer />}    </div>
   )
 };
 export default CommonLayout;

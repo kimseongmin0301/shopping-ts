@@ -5,7 +5,7 @@ import Footer from "./components/Footer"
 import Header from "./components/Header"
 import SliderComponent from "./components/slider/Slider"
 import { useEffect, useState } from "react"
-import { Popup } from "./components/popup/Popup"
+import PopupPage, { Popup } from "./components/popup/Popup"
 export default function Home() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -67,9 +67,9 @@ export default function Home() {
           <h1>My Page</h1>
         </div>
         <div className="m-2">
+          <PopupPage />
           <ListItem>
-            <List>123</List>
-            <List>1234</List>
+
           </ListItem>
         </div>
       </div>

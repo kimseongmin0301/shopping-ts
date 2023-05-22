@@ -21,9 +21,9 @@ export const Postcode = (props: PostcodeProps) => {
             headers: { Authorization: localStorage.getItem('access_token') }
         })
             .then(res => {
-                setFullAddr(res.data.UserInfo.address2)
-                setZoneCode(res.data.UserInfo.address1)
-                setEndCode(res.data.UserInfo.address3)
+                setFullAddr(res?.data.UserInfo.address2)
+                setZoneCode(res?.data.UserInfo.address1)
+                setEndCode(res?.data.UserInfo.address3)
             })
     }, [])
 

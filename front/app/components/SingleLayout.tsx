@@ -1,3 +1,5 @@
+'use client'
+
 import Head from "next/head";
 const SingleLayout = ({ children }: { children: React.ReactNode }) => (
   <div>

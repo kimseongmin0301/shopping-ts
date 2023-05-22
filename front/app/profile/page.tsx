@@ -7,6 +7,7 @@ import { SideBar } from "../components/sidebar/SideBar";
 import { useEffect, useRef, useState } from "react";
 import { axiosInstance } from "../services/base.service";
 import { Postcode } from "../components/addressAPI/DaumPostcodeEmbed";
+import { useRouter } from "next/navigation";
 
 const userInfo = ['아이디', '비밀번호', '이름', '주소']
 
@@ -54,14 +55,21 @@ export default function Profile() {
   }, [])
 
   const [userProfile, setUserProfile] = useState({});
-
+  const router = useRouter();
   useEffect(() => {
     axiosInstance.get('/api/auth/profile', {
       headers: { Authorization: localStorage.getItem('access_token') }
     })
       .then(res => {
-        setUserProfile(res.data)
+        setUserProfile(res?.data)
       })
+      .catch(error => {
+        if (error.response && error.response.status === 401) {
+          alert('로그인을 해 주세요')
+          router.push('/login')
+        }
+      }
+      )
   }, [])
 
   const [address1, setAddress1] = useState('');
@@ -87,7 +95,7 @@ export default function Profile() {
       address3: address3 as string,
       modDt: new Date(),
     })
-      .then((res) => { console.log(res) })
+      .then((res) => { console.log(res.status) })
       .catch((error) => console.log(error))
   }
 
