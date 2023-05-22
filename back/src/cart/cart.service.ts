@@ -73,7 +73,7 @@ export class CartService {
 
     // 장바구니 삭제( 여러개 삭제 가능하게 Many )
     async deleteCart(dto: CartDto[]): Promise<void> {
-        // try {
+        try {
         const cartsIds = dto.map((d) => d.seq);
 
         await prisma.cart.deleteMany({
@@ -84,9 +84,9 @@ export class CartService {
             },
         });
 
-        // } catch (error) {
-        //     throw new Error('Failed to delect cart')
-        // }
+        } catch (error) {
+            throw new Error('Failed to delect cart')
+        }
     }
 
 }
